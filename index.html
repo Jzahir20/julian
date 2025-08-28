@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zahir - El Rey de la Solución</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #FFD700; /* Dorado */
+            --secondary-color: #B8860B; /* Tono más oscuro de dorado */
+            --background-dark: #1A1A1A;
+            --text-light: #F0F0F0;
+            --white: #fff;
+            --font-poppins: 'Poppins', sans-serif;
+            --font-playfair: 'Playfair Display', serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-poppins);
+            color: var(--text-light);
+            background-color: var(--background-dark);
+            overflow-x: hidden;
+            scroll-padding-top: 90px; /* offset para el header fijo */
+        }
+        
+        /* Animaciones */
+        @keyframes glowing-gold {
+            0% { box-shadow: 0 0 5px var(--primary-color); }
+            50% { box-shadow: 0 0 20px var(--primary-color), 0 0 30px var(--secondary-color); }
+            100% { box-shadow: 0 0 5px var(--primary-color); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color); }
+            50% { box-shadow: 0 0 30px var(--primary-color), 0 0 40px var(--secondary-color); }
+        }
+        
+        /* Estilos Generales */
+        .cta-button {
+            border: 2px solid var(--primary-color);
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: var(--background-dark);
+            font-size: 1.2rem;
+            font-weight: 800;
+            padding: 18px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-transform: uppercase;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        header {
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(8px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            position: relative; /* necesario para menú móvil */
+        }
+
+        .logo {
+            font-family: var(--font-playfair);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .crown {
+            font-size: 1.5rem;
+            margin-left: 10px;
+            animation: glowing-gold 1.5s infinite ease-in-out;
+            text-shadow: 0 0 8px var(--primary-color);
+        }
+
+        .menu {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        .menu a:hover {
+            color: var(--primary-color);
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?fit=crop&w=1470&q=80') no-repeat center center/cover;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        .hero-content {
+            z-index: 1;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .hero h1 {
+            font-family: var(--font-playfair);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+        }
+        
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            margin-bottom: 30px;
+            font-style: italic;
+            max-width: 800px;
+            animation: slideInUp 1.5s ease-in-out 0.5s;
+            animation-fill-mode: both;
+        }
+
+        section {
+            padding: 80px 10%;
+            background-color: var(--background-dark);
+        }
+
+        section:nth-of-type(odd) {
+            background-color: #222;
+        }
+
+        h2 {
+            font-family: var(--font-playfair);
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--primary-color);
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.4);
+        }
+        
+        .about-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .profile-card {
+            position: relative;
+            width: 280px;
+            height: 350px;
+            perspective: 1000px;
+        }
+        
+        .profile-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+            transition: transform 0.6s ease-in-out;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .profile-card:hover img {
+            transform: rotateY(10deg) scale(1.05);
+        }
+
+        .profile-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 70%);
+            border-radius: 20px;
+            z-index: 10;
+        }
+
+        .profile-light {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            height: 120%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.4), transparent 70%);
+            transform: translate(-50%, -50%);
+            animation: glow 2s infinite alternate;
+            z-index: 5;
+        }
+
+        .about-text {
+            max-width: 700px;
+            text-align: center;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
+            text-align: center;
+        }
+
+        .skill-card {
+            background: #2A2A2A;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid var(--primary-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+        }
+
+        .skill-card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .skill-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .services-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, #2A2A2A, #3A3A3A);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            text-align: center;
+            font-weight: 600;
+            transition: transform 0.4s, box-shadow 0.4s, background 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 215, 0, 0.2), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            background: linear-gradient(135deg, #3A3A3A, #4A4A4A);
+        }
+        
+        .service-card i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .service-card h3 {
+            font-family: var(--font-playfair);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .contact-section {
+            text-align: center;
+            background: linear-gradient(135deg, var(--background-dark), #2A2A2A);
+            border-radius: 20px;
+            padding: 60px;
+            margin-top: 50px;
+        }
+        
+        .contact-info p {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #000;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .socials {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .socials a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .socials a:hover {
+            color: var(--secondary-color);
+            transform: translateY(-5px);
+        }
+
+        .hamburger-menu {
+            display: none;
+            cursor: pointer;
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .hamburger-menu {
+                display: block;
+            }
+
+            .menu {
+                flex-direction: column;
+                gap: 20px;
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: rgba(26, 26, 26, 0.9);
+                padding: 20px 0;
+                text-align: center;
+            }
+
+            .menu.open {
+                display: flex;
+            }
+
+            .navbar {
+                padding: 15px 5%;
+            }
+            
+            .logo {
+                font-size: 1.8rem;
+            }
+
+            .crown {
+                font-size: 1.2rem;
+            }
+            
+            .about-container {
+                flex-direction: column;
+            }
+
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo">Zahir<span class="crown">👑</span></a>
+            <div class="hamburger-menu" id="hamburger-menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <ul class="menu" id="nav-menu">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#sobre-mi">Sobre Mí</a></li>
+                <li><a href="#habilidades">Habilidades</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Zahir: El Rey de la Solución</h1>
+            <p>"Con cada línea de código, resuelvo un desafío. Con cada servicio, brindo una solución."</p>
+            <a href="#servicios" class="cta-button">Ver mis servicios</a>
+        </div>
+    </section>
+
+    <section id="sobre-mi">
+        <h2>Un Visionario en Construcción</h2>
+        <div class="about-container">
+            <div class="profile-card">
+                <div class="profile-light"></div>
+                <img src="img.png.jpg" alt="Foto de perfil de Zahir">
+                <div class="profile-overlay"></div>
+            </div>
+            <div class="about-text">
+                <p>Soy <strong>Zahir</strong>, un estudiante de grado que actualmente se está formando como técnico en programación. Mis habilidades van más allá de un simple código; mi visión es usar la tecnología para solucionar problemas reales, desde el mundo digital hasta el día a día.</p>
+                <p>Me encanta enfrentar desafíos y encontrar la manera más eficiente y creativa de resolverlos. Mi compromiso es ofrecer siempre la mejor solución, demostrando que la pasión y el conocimiento pueden transformar cualquier idea en realidad.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="habilidades">
+        <h2>Mis Habilidades Destacadas</h2>
+        <div class="skills-container">
+            <div class="skill-card">
+                <i class="fa-solid fa-laptop-code"></i>
+                <h4>Programación Web</h4>
+                <p>HTML, CSS, JavaScript</p>
+            </div>
+            <div class="skill-card">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                <h4>Soporte Técnico</h4>
+                <p>Diagnóstico y optimización de dispositivos móviles.</p>
+            </div>
+            <div class="skill-card">
+                <i class="fa-solid fa-file-medical"></i>
+                <h4>Gestión de Trámites</h4>
+                <p>Agilización de procesos y solicitudes médicas.</p>
+            </div>
+            <div class="skill-card">
+                <i class="fa-solid fa-headset"></i>
+                <h4>Asesoría Académica</h4>
+                <p>Refuerzo escolar y ayuda con tareas de diversas materias.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicios">
+        <h2>Mis Servicios</h2>
+        <div class="services-container">
+            <div class="service-card">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <h3>Refuerzos y Ayuda en Tareas</h3>
+                <p>Asesorías personalizadas para que domines cualquier materia. Aprendemos juntos a resolver tus problemas académicos.</p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                <h3>Soporte Técnico Celular</h3>
+                <p>Reparo fallas, optimizo el rendimiento de celulares y brindo mantenimiento preventivo.</p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-file-invoice"></i>
+                <h3>Gestión de Trámites y Asesoría</h3>
+                <p>Ayudo a agilizar trámites y procesos importantes, brindando soporte y orientación en cada paso.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="contact-section">
+        <h2>Contáctame</h2>
+        <p>¿Listo para encontrar una solución? Contáctame para llevar tu proyecto al siguiente nivel.</p>
+        <div class="contact-info">
+            <p>Email: jzlopezc@iegabo.edu</p>
+            <p>Tel: 3042309550</p>
+        </div>
+        <div class="socials">
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Zahir. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            const navMenu = document.getElementById('nav-menu');
+
+            hamburgerMenu.addEventListener('click', () => {
+                navMenu.classList.toggle('open');
+            });
+            
+            document.querySelectorAll('.menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navMenu.classList.contains('open')) {
+                        navMenu.classList.remove('open');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
